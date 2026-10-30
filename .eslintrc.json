@@ -1,22 +1,46 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "ignorePatterns": ["dist/**/*", "coverage/**/*"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "@feature-sliced/eslint-config/rules/import-order",
+        "@feature-sliced/eslint-config/rules/public-api",
+        "@feature-sliced/eslint-config/rules/layers-slices",
+        "prettier"
+      ],
+      "settings": {
+        "import/resolver": {
+          "node": {
+            "paths": ["src"],
+            "extensions": [".ts", ".js"]
+          }
+        }
+      },
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@angular-eslint/directive-selector": [
           "error",
           {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
+            "type": "attribute",
+            "prefix": "fs",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "fs",
+            "style": "kebab-case"
           }
         ],
         "@angular-eslint/component-class-suffix": [
@@ -28,13 +52,8 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]
