@@ -1,1 +1,2 @@
-export { TasksFilterModule } from './tasks-filter.module';
+export { TasksFilterFacade, TasksFilterStoreModule } from './model';
+export { TasksFilterUiModule } from './ui';

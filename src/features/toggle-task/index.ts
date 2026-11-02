@@ -1,1 +1,2 @@
-export { ToggleTaskModule } from './toggle-task.module';
+export { ToggleTaskService } from './model';
+export { ToggleTaskUiModule } from './ui';

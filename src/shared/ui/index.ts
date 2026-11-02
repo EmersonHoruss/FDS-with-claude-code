@@ -1,1 +1,1 @@
-export * from './ui-kit.module';
+export { UiKitModule } from './ui-kit.module';

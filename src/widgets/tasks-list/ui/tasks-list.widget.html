@@ -1,0 +1,28 @@
+<div class="task-list">
+  <fs-tasks-filter class="task-list__filter"></fs-tasks-filter>
+
+  <ul *ngIf="taskFacade.loaded$ | async; else spinner" class="task-list__list">
+    <ng-container *ngIf="tasksFilterFacade.filteredTasks$ | async as tasks">
+      <ng-container *ngIf="tasks.length > 0; else empty">
+        <fs-task-row
+          *ngFor="let task of tasks; trackBy: trackByTaskId"
+          [task]="task"
+          class="task-list__row"
+          (click)="taskOpen.emit(task)"
+        >
+          <fs-toggle-task [task]="task" class="checkbox"></fs-toggle-task>
+        </fs-task-row>
+      </ng-container>
+    </ng-container>
+  </ul>
+</div>
+
+<ng-template #empty><mat-card>Nothing found!</mat-card></ng-template>
+
+<ng-template #spinner>
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    value="50"
+  ></mat-progress-spinner>
+</ng-template>

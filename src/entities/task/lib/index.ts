@@ -1,1 +1,1 @@
-export * from './task-status.pipe';
+export { TaskStatusPipe } from './task-status.pipe';

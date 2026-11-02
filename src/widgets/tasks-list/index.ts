@@ -1,0 +1,1 @@
+export { TasksListWidgetModule } from './ui';

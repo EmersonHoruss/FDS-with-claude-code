@@ -1,22 +1,15 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import type { Task } from 'shared/api';
 
 import * as TaskActions from './task.actions';
-import { QueryConfig } from './task.models';
+import type { Task } from './types';
 
 export const TASK_FEATURE_KEY = 'task';
 
 export interface State extends EntityState<Task> {
-  selectedId?: string | number;
-  loading?: boolean;
-  loaded?: boolean;
-  error?: unknown;
-  queryConfig?: QueryConfig;
-}
-
-export interface TaskPartialState {
-  readonly [TASK_FEATURE_KEY]: State;
+  loading: boolean;
+  loaded: boolean;
+  error: unknown;
 }
 
 export const taskAdapter: EntityAdapter<Task> = createEntityAdapter<Task>();
@@ -24,38 +17,43 @@ export const taskAdapter: EntityAdapter<Task> = createEntityAdapter<Task>();
 export const initialState: State = taskAdapter.getInitialState({
   loading: false,
   loaded: false,
+  error: null,
 });
 
 const taskReducer = createReducer(
   initialState,
-  on(TaskActions.loadAllTasks, (state) => ({
+  on(TaskActions.loadTasks, (state) => ({
     ...state,
     loaded: false,
     loading: true,
     error: null,
   })),
   on(TaskActions.loadTasksSuccess, (state, { tasks }) =>
-    taskAdapter.setAll(tasks, { ...state, loading: false, loaded: true })
+    taskAdapter.setAll(tasks, { ...state, loading: false, loaded: true }),
   ),
-  on(TaskActions.loadTasksFailure, (state, { error }) => ({ ...state, error })),
-
-  on(TaskActions.filterTasks, (state, { queryConfig }) => ({
+  on(TaskActions.loadTasksFailure, (state, { error }) => ({
     ...state,
-    queryConfig,
+    loading: false,
+    error,
   })),
 
-  on(TaskActions.toggleTask, (state, { task }) => {
-    return taskAdapter.updateOne(
-      {
-        id: task.id,
-        changes: {
-          ...task,
-          completed: !task.completed,
-        },
-      },
-      state
-    );
-  })
+  on(TaskActions.loadTask, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(TaskActions.loadTaskSuccess, (state, { task }) =>
+    taskAdapter.upsertOne(task, { ...state, loading: false }),
+  ),
+  on(TaskActions.loadTaskFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  on(TaskActions.updateTask, (state, { update }) =>
+    taskAdapter.updateOne(update, state),
+  ),
 );
 
 export function reducer(state: State | undefined, action: Action) {

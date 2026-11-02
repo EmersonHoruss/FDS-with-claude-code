@@ -1,4 +1,4 @@
-export type Task = {
+export type TaskDto = {
   id: number;
   title: string;
   userId: number;

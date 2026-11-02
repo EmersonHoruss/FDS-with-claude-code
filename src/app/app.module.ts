@@ -1,12 +1,14 @@
+import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from 'app/app.component';
-import { AppStoreModule } from 'app/core';
-import { AppRoutingModule } from 'pages';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './routing';
+import { AppStoreModule } from './store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +18,7 @@ import { AppRoutingModule } from 'pages';
     AppRoutingModule,
     AppStoreModule,
   ],
-  providers: [provideClientHydration()],
+  providers: [provideHttpClient(), provideClientHydration()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

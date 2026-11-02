@@ -1,1 +1,1 @@
-export * from './task-details.module';
+export { TaskDetailsPageModule } from './ui';

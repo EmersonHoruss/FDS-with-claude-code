@@ -1,4 +1,3 @@
-export * as TaskModel from './model';
-export * as TaskLib from './lib';
-export { TaskFacade } from './model';
-export { TaskModule } from './task.module';
+export { TaskFacade, TaskStoreModule, selectAllTasks } from './model';
+export type { Task } from './model';
+export { TaskUiModule } from './ui';

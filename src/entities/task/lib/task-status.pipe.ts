@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import type { Task } from 'shared/api';
+import type { Task } from '../model';
 
 type Status = 'CLOSED' | 'OPENED';
 

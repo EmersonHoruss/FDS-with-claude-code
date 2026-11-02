@@ -1,0 +1,7 @@
+<mat-checkbox
+  [checked]="task.completed"
+  (change)="toggle()"
+  (click)="$event.stopPropagation()"
+>
+  {{ withStatus ? (task | taskStatus) : null }}
+</mat-checkbox>
